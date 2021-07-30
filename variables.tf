@@ -40,5 +40,5 @@ variable "kubeconfig_path" {
 
 variable "k8s_version" {
   description = "kubernetes version"
-  default = ""
+  default     = ""
 }

@@ -9,7 +9,7 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  region  = var.region
+  region = var.region
 }
 
 module "vpc" {
@@ -35,10 +35,10 @@ module "eks" {
 }
 
 module "ingress" {
-  source       = "./ingress"
-  name         = var.name
-  environment  = var.environment
-  region       = var.region
-  vpc_id       = module.vpc.id
-  cluster_id   = module.eks.cluster_id
+  source      = "./ingress"
+  name        = var.name
+  environment = var.environment
+  region      = var.region
+  vpc_id      = module.vpc.id
+  cluster_id  = module.eks.cluster_id
 }
