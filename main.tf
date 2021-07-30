@@ -1,10 +1,17 @@
+# Root main.tf
+
 terraform {
-  required_version = "~>0.12.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
 }
 
+# Configure the AWS Provider
 provider "aws" {
-  version = "~> 2.44"
-  region  = var.region
+  region = var.region
 }
 
 module "vpc" {
@@ -30,10 +37,10 @@ module "eks" {
 }
 
 module "ingress" {
-  source       = "./ingress"
-  name         = var.name
-  environment  = var.environment
-  region       = var.region
-  vpc_id       = module.vpc.id
-  cluster_id   = module.eks.cluster_id
+  source      = "./ingress"
+  name        = var.name
+  environment = var.environment
+  region      = var.region
+  vpc_id      = module.vpc.id
+  cluster_id  = module.eks.cluster_id
 }
