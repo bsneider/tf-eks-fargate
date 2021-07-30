@@ -10,8 +10,9 @@ on:
 jobs:
   terraform:
     name: "Terraform"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     environment: development
+    timeout-minutes: 30
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -19,6 +20,10 @@ jobs:
         shell: bash
 
     steps:
+      # Check OpenSSL Version
+      - name: OpenSSL Version Check
+        run: openssl version -a
+
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v2
@@ -92,7 +97,7 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-            
+
       # Exit after updating PR comments if plan failed
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
