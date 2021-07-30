@@ -10,10 +10,6 @@ Due to the fact that EKS with Fargate profiles is not yet supported in all regio
 (<https://docs.aws.amazon.com/eks/latest/userguide/fargate.html>) this template uses
 the `eu-west-1 (Ireland)`region.
 
-## Prerequisites
-
-This template requires `aws-iam-authenticator` and `openssl` to be installed
-
 ## Known limitations
 
 * Although the namespace `default` is set in the fargate profile (meaning
