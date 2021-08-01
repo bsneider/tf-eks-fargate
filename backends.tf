@@ -1,9 +1,9 @@
 terraform {
   backend "remote" {
-    organization = "tfclouddfa"
+    organization = "devsecopslearning"
 
     workspaces {
-      name = "tf-eks-fargate-dev"
+      name = "devsecops-dev"
     }
   }
 }
