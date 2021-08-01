@@ -8,9 +8,9 @@ terraform {
       source = "hashicorp/template"
       version = "2.2.0"
     }
-    external = {
-      source = "hashicorp/external"
-      version = "2.1.0"
+    tls = {
+      source = "hashicorp/tls"
+      version = "3.1.0"
     }
     kubernetes = {
       source = "hashicorp/kubernetes"
@@ -146,19 +146,14 @@ resource "aws_eks_cluster" "main" {
 }
 
 # Fetch OIDC provider thumbprint for root CA
-data "external" "thumbprint" {
-  program =    ["${path.module}/oidc_thumbprint.sh", var.region]
-  depends_on = [aws_eks_cluster.main]
+data "tls_certificate" "example" {
+  url = "${data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer}"
 }
 
 resource "aws_iam_openid_connect_provider" "main" {
   client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [data.external.thumbprint.result.thumbprint]
-  url             = data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer
-
-  lifecycle {
-    ignore_changes = [thumbprint_list]
-  }
+  thumbprint_list = ["${data.tls_certificate.example.certificates[0].sha1_fingerprint}"]
+  url             = "${data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer}"
 }
 
 resource "aws_iam_role" "eks_node_group_role" {
