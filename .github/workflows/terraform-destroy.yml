@@ -30,7 +30,16 @@ jobs:
           # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
           aws-region: eu-west-1
 
-          # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      # install jq
+      - name: Install jq for aws cli json parsing
+        run: sudo apt-get install jq
+
+      #get load balancer arn and use it to delete load balancer
+      - name: Delete loadbalancer based on arn
+        run: |
+          delete-load-balancer --load-balancer-arn $(aws elbv2 describe-load-balancers | jq '.LoadBalancers | .[] | select( .LoadBalancerArn | contains( "2048ingr")) | .LoadBalancerArn'| sed -e 's/^"//' -e 's/"$//')
+
+      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
