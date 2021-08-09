@@ -8,7 +8,7 @@ and <https://medium.com/@marcincuber/amazon-eks-with-oidc-provider-iam-roles-for
 
 Due to the fact that EKS with Fargate profiles is not yet supported in all regions
 (<https://docs.aws.amazon.com/eks/latest/userguide/fargate.html>) this template uses
-the `eu-west-1 (Ireland)`region.
+the `us-east-2`region.
 
 ## Known limitations
 
@@ -23,3 +23,9 @@ namespace, which is also used for the Ingress controller.
 * By default the `config` file for `kubectl` is created in `~/.kube` directory. If any
 configuration already exists there, it will be overwritten! To preserve any pre-existing
 configuration, change the `kubeconfig_path` variable.
+
+## Getting Started
+
+1. fully configured vault cloud
+2. setup terraform cloud
+3. add secrets to github
