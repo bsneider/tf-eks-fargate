@@ -24,6 +24,13 @@ provider "aws" {
   access_key = module.aws_creds.access_key
   secret_key = module.aws_creds.secret_key
   token      = module.aws_creds.token
+  default_tags {
+    tags = {
+      Environment = var.environment
+      Owner       = "Ops"
+      Project     = "tf-eks-fargate"
+    }
+  }
 }
 
 module "vpc" {
