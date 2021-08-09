@@ -30,3 +30,6 @@ configuration, change the `kubeconfig_path` variable.
 2. setup terraform cloud
    1. TF Cloud must be set to local execution bc we wont be executing on tf cloud. If set to remote then only env vars set on tf cloud will be used, which is very annoying.
 3. add secrets to github
+4. rm ~/.kube/config
+5. aws eks update-kubeconfig --name eks-******-****** --profile ******** --region us-east-2
+6. kubectl get svc
