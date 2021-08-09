@@ -9,9 +9,21 @@ terraform {
   }
 }
 
+
+module "aws_creds" {
+  source                  = "./aws_creds"
+  environment             = var.environment
+  vault_addr              = var.vault_addr
+  login_approle_role_id   = var.login_approle_role_id
+  login_approle_secret_id = var.login_approle_secret_id
+}
+
 # Configure the AWS Provider
 provider "aws" {
-  region = var.region
+  region     = var.region
+  access_key = module.aws_creds.access_key
+  secret_key = module.aws_creds.secret_key
+  token      = module.aws_creds.token
 }
 
 module "vpc" {

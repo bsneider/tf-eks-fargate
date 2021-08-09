@@ -10,12 +10,12 @@ variable "environment" {
 
 variable "region" {
   description = "the AWS region in which resources are created, you must set the availability_zones variable as well if you define this value to something other than the default"
-  default     = "eu-west-1"
+  default     = "us-east-2"
 }
 
 variable "availability_zones" {
   description = "a comma-separated list of availability zones, defaults to all AZ of the region, if set to something other than the defaults, both private_subnets and public_subnets have to be defined as well"
-  default     = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  default     = ["us-east-2a", "us-east-2b", "us-east-2c"]
 }
 
 variable "cidr" {
@@ -41,4 +41,16 @@ variable "kubeconfig_path" {
 variable "k8s_version" {
   description = "kubernetes version"
   default     = ""
+}
+variable "login_approle_role_id" {
+  description = "role id for vault approle to generate aws creds"
+  type        = string
+}
+variable "login_approle_secret_id" {
+  description = "secret id for vault approle to generate aws creds"
+  type        = string
+}
+variable "vault_addr" {
+  description = "address of vault instance"
+  type        = string
 }

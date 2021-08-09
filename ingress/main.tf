@@ -5,7 +5,7 @@
 terraform {
   required_providers {
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
       version = "2.3.2"
     }
   }
@@ -232,7 +232,7 @@ resource "kubernetes_service_account" "ingress" {
   metadata {
     name      = "alb-ingress-controller"
     namespace = "kube-system"
-    labels    = {
+    labels = {
       "app.kubernetes.io/name"       = "alb-ingress-controller"
       "app.kubernetes.io/managed-by" = "terraform"
     }
@@ -246,7 +246,7 @@ resource "kubernetes_deployment" "ingress" {
   metadata {
     name      = "alb-ingress-controller"
     namespace = "kube-system"
-    labels    = {
+    labels = {
       "app.kubernetes.io/name"       = "alb-ingress-controller"
       "app.kubernetes.io/version"    = "v1.1.5"
       "app.kubernetes.io/managed-by" = "terraform"
@@ -280,7 +280,7 @@ resource "kubernetes_deployment" "ingress" {
           name              = "alb-ingress-controller"
           image             = "docker.io/amazon/aws-alb-ingress-controller:v1.1.5"
           image_pull_policy = "Always"
-          
+
           args = [
             "--ingress-class=alb",
             "--cluster-name=${data.aws_eks_cluster.cluster.id}",

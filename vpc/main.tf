@@ -28,17 +28,17 @@ resource "aws_nat_gateway" "main" {
   depends_on    = [aws_internet_gateway.main]
 
   tags = {
-    Name        = "${var.name}-${var.environment}-nat-${format("%03d", count.index+1)}"
+    Name        = "${var.name}-${var.environment}-nat-${format("%03d", count.index + 1)}"
     Environment = var.environment
   }
 }
 
 resource "aws_eip" "nat" {
   count = length(var.private_subnets)
-  vpc = true
+  vpc   = true
 
   tags = {
-    Name        = "${var.name}-${var.environment}-eip-${format("%03d", count.index+1)}"
+    Name        = "${var.name}-${var.environment}-eip-${format("%03d", count.index + 1)}"
     Environment = var.environment
   }
 }
@@ -50,7 +50,7 @@ resource "aws_subnet" "private" {
   count             = length(var.private_subnets)
 
   tags = {
-    Name                                                   = "${var.name}-${var.environment}-private-subnet-${format("%03d", count.index+1)}",
+    Name                                                   = "${var.name}-${var.environment}-private-subnet-${format("%03d", count.index + 1)}",
     Environment                                            = var.environment,
     "kubernetes.io/cluster/${var.name}-${var.environment}" = "shared"
     "kubernetes.io/role/internal-elb"                      = "1"
@@ -65,7 +65,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name                                                   = "${var.name}-${var.environment}-public-subnet-${format("%03d", count.index+1)}",
+    Name                                                   = "${var.name}-${var.environment}-public-subnet-${format("%03d", count.index + 1)}",
     Environment                                            = var.environment,
     "kubernetes.io/cluster/${var.name}-${var.environment}" = "shared",
     "kubernetes.io/role/elb"                               = "1"
@@ -92,7 +92,7 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name        = "${var.name}-${var.environment}-routing-table-private-${format("%03d", count.index+1)}"
+    Name        = "${var.name}-${var.environment}-routing-table-private-${format("%03d", count.index + 1)}"
     Environment = var.environment
   }
 }

@@ -1,19 +1,19 @@
 terraform {
   required_providers {
     local = {
-      source = "hashicorp/local"
+      source  = "hashicorp/local"
       version = "2.1.0"
     }
     template = {
-      source = "hashicorp/template"
+      source  = "hashicorp/template"
       version = "2.2.0"
     }
     tls = {
-      source = "hashicorp/tls"
+      source  = "hashicorp/tls"
       version = "3.1.0"
     }
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
       version = "2.3.2"
     }
   }
@@ -147,13 +147,13 @@ resource "aws_eks_cluster" "main" {
 
 # Fetch OIDC provider thumbprint for root CA
 data "tls_certificate" "example" {
-  url = "${data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer}"
+  url = data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer
 }
 
 resource "aws_iam_openid_connect_provider" "main" {
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = ["${data.tls_certificate.example.certificates[0].sha1_fingerprint}"]
-  url             = "${data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer}"
+  url             = data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer
 }
 
 resource "aws_iam_role" "eks_node_group_role" {
@@ -205,7 +205,7 @@ resource "aws_eks_node_group" "main" {
     min_size     = 2
   }
 
-  instance_types  = ["t2.micro"]
+  instance_types = ["t2.micro"]
 
   version = var.k8s_version
 
@@ -227,10 +227,10 @@ data "template_file" "kubeconfig" {
   template = file("${path.module}/templates/kubeconfig.tpl")
 
   vars = {
-    kubeconfig_name           = "eks_${aws_eks_cluster.main.name}"
-    clustername               = aws_eks_cluster.main.name
-    endpoint                  = data.aws_eks_cluster.cluster.endpoint
-    cluster_auth_base64       = data.aws_eks_cluster.cluster.certificate_authority[0].data
+    kubeconfig_name     = "eks_${aws_eks_cluster.main.name}"
+    clustername         = aws_eks_cluster.main.name
+    endpoint            = data.aws_eks_cluster.cluster.endpoint
+    cluster_auth_base64 = data.aws_eks_cluster.cluster.certificate_authority[0].data
   }
 }
 
