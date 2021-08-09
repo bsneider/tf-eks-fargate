@@ -28,4 +28,5 @@ configuration, change the `kubeconfig_path` variable.
 
 1. fully configured vault cloud
 2. setup terraform cloud
+   1. TF Cloud must be set to local execution bc we wont be executing on tf cloud. If set to remote then only env vars set on tf cloud will be used, which is very annoying.
 3. add secrets to github
