@@ -66,7 +66,7 @@ resource "kubernetes_deployment" "app" {
   metadata {
     name      = "deployment-2048"
     namespace = "2048-game"
-    labels    = {
+    labels = {
       app = "2048"
     }
   }
@@ -135,7 +135,7 @@ resource "kubernetes_ingress" "app" {
       "alb.ingress.kubernetes.io/target-type" = "ip"
     }
     labels = {
-        "app" = "2048-ingress"
+      "app" = "2048-ingress"
     }
   }
 

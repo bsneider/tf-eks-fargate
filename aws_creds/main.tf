@@ -9,7 +9,7 @@ terraform {
 
 provider "vault" {
   # Configuration options
-  address   = "${var.vault_addr}"
+  address   = var.vault_addr
   namespace = var.vault_namespace
   auth_login {
     path      = "auth/approle/login"
